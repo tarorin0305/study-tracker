@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react';
+import { getRandomInt } from '../utils/fakeData'
 import {
   Chart as ChartJS,
   CategoryScale,
@@ -10,7 +11,7 @@ import {
   Tooltip,
   Legend,
 } from 'chart.js';
-import { Line, Bar, Doughnut } from 'react-chartjs-2';
+import { Line, Bar } from 'react-chartjs-2';
 
 ChartJS.register(
   
@@ -24,6 +25,12 @@ ChartJS.register(
   Legend
 );
 
+const labels = [...Array(30)].map((_, i) => {
+  let jstNow = new Date(Date.now() + ((new Date().getTimezoneOffset() + (9 * 60)) * 60 * 1000));
+  jstNow.setDate(jstNow.getDate() - i)
+  return `${jstNow.getMonth() + 1}/${jstNow.getDate()}`
+}).reverse()
+
 export const line_options = {
   responsive: true,
   plugins: {
@@ -33,18 +40,6 @@ export const line_options = {
     title: {
       display: true,
       text: 'Chart.js Line Chart',
-    },
-  },
-};
-export const bar_options = {
-  responsive: true,
-  plugins: {
-    legend: {
-      position: 'top' as const,
-    },
-    title: {
-      display: true,
-      text: 'Chart.js Bar Chart',
     },
   },
 };
@@ -90,35 +85,6 @@ export const grouped_bar_options = {
   },
 };
 
-const labels = [...Array(30)].map((_, i) => {
-  let jstNow = new Date(Date.now() + ((new Date().getTimezoneOffset() + (9 * 60)) * 60 * 1000));
-  jstNow.setDate(jstNow.getDate() - i)
-  return `${jstNow.getMonth() + 1}/${jstNow.getDate()}`
-}).reverse()
-const getRandomInt = (min: number, max: number): number => {
-  min = Math.ceil(min);
-  max = Math.floor(max);
-  return Math.floor(Math.random() * (max - min) + min)
-}
-// APIを叩いて以下のデータを取得
-// 勉強科目
-// 勉強したポモドーロ数
-// 指定したグラフの色
-// [
-//   {
-//     label: 'Distinction',
-//     data: [1, 2, 1, 1, 0, 5, ...],
-//     borderColor: 'rgb(255, 99, 132)',
-//     backgroundColor: 'rgba(255, 99, 132, 0.5)',
-//   },
-//   {
-//     label: 'Cambly',
-//     data: [1, 2, 1, 1, 0, 5, ...],
-//     borderColor: 'rgb(53, 162, 235)',
-//     backgroundColor: 'rgba(53, 162, 235, 0.5)',
-//   }
-// ]
-
 export const grouped_bar_data = {
   labels,
   datasets: [
@@ -143,11 +109,30 @@ export const grouped_bar_data = {
   ],
 };
 
+// APIを叩いて以下のデータを取得
+// 勉強科目
+// 勉強したポモドーロ数
+// 指定したグラフの色
+// [
+//   {
+//     label: 'Distinction',
+//     data: [1, 2, 1, 1, 0, 5, ...],
+//     borderColor: 'rgb(255, 99, 132)',
+//     backgroundColor: 'rgba(255, 99, 132, 0.5)',
+//   },
+//   {
+//     label: 'Cambly',
+//     data: [1, 2, 1, 1, 0, 5, ...],
+//     borderColor: 'rgb(53, 162, 235)',
+//     backgroundColor: 'rgba(53, 162, 235, 0.5)',
+//   }
+// ]
+
 const ChartList = () => {
   const [studyRecords, setStudyRecords] = useState([])
   useEffect(()=> {
     const getStudyRecords = async () => {
-      const _response = await fetch(`http://localhost:8000/api/study_records`, {mode: 'cors'})
+      await fetch(`http://localhost:8000/api/study_records`, {mode: 'cors'})
         .then(res => res.json())
         .then(setStudyRecords)
     };
@@ -157,6 +142,7 @@ const ChartList = () => {
     labels,
     datasets: studyRecords,
   };
+
   return (
     <div className="chart-group w-3/4">
       <h2 className="text-3xl font-bold">チャート</h2>
