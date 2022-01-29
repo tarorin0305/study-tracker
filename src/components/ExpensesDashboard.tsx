@@ -65,8 +65,8 @@ const ExpensesDashboard = () => {
     { name: '副業', path: 'sub'},
   ]
   const outcomItems = [
-    { name: '家賃', path: 'rent'},
-    { name: 'ガス代', path: 'gas'},
+    { name: '家賃', path: 'rents'},
+    { name: 'ガス代', path: 'gases'},
     { name: '電気代', path: 'electricity'},
     { name: '水道代', path: 'water'},
     { name: 'ネット料金', path: 'internet'},

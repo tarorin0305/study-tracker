@@ -1,4 +1,4 @@
-import React, { useRef } from "react"
+import React, { useState } from "react"
 type ItemType = {
   name: string,
   path: string,
@@ -9,15 +9,22 @@ type Props = {
 }
 
 const Form: React.FC<Props> = ({ title, items }) => {
-  const itemValue = useRef<HTMLInputElement>(null);
-  const postValue: React.ChangeEventHandler<HTMLInputElement> = ev => {
-    itemValue.current !== null ? console.log(itemValue.current.value) : console.log(itemValue.current)
+  const [itemValue, setItemValue] = useState(0);
+
+  const postValue  = (value: string, itemPath: string) => {
+    fetch(`http://localhost:8000/api/expenses/${itemPath}`, {
+      method: 'POST',
+      mode: 'cors',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({value})
+    })
+    setItemValue(parseInt(value));
   }
   const itemForms = items.map((item) => (
-    <form className='pt-2'>
+    <form className='pt-2' key={item.name}>
       <label>
         {item.name}:
-        <input ref={itemValue} type="number" onChange={postValue} className='ml-2 border border-cyan-300 rounded' />
+        <input type="number" onChange={event => postValue(event.target.value, item.path)} className='ml-2 border border-cyan-300 rounded' />
       </label>
     </form>
   ))
