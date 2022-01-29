@@ -89,7 +89,7 @@ const ExpensesDashboard = () => {
             </form>
             <form action="" className='pt-2'>
               <label>
-                副業1:
+                副業:
                 <input type="number" className='ml-2 border border-cyan-300 rounded'/>
               </label>
             </form>
@@ -104,7 +104,7 @@ const ExpensesDashboard = () => {
             </form>
             <form action="" className='pt-2'>
               <label>
-                ガス代1:
+                ガス代:
                 <input type="number" className='ml-2 border border-cyan-300 rounded'/>
               </label>
             </form>
