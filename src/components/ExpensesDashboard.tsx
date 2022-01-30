@@ -63,7 +63,7 @@ const ExpensesDashboard = () => {
   };
 
   const [incomeItems, setIncomeItems] = useState([
-    { name: '本業' },
+    { name: '本業' }, // 初期値をAPIから取得
   ])
   const [outcomeItems, setOutcomeItems] = useState([
     { name: '家賃' },
@@ -89,6 +89,28 @@ const ExpensesDashboard = () => {
     setOutcomeItems(newOutcomeItems);
   }
 
+  const postNewIncomeItem = () => {
+    // TODO: setNewIncomeItem の後に呼ばれているはずだが最新のStateの中身を参照できないので要修正
+    const newIncomeItem = incomeItems[incomeItems.length -1];
+    fetch(`http://localhost:8000/api/expenses/incomes`, {
+      method: 'POST',
+      mode: 'cors',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ name: newIncomeItem.name })
+    })
+  }
+
+  const postNewOutcomeItem = () => {
+    // TODO: postNewIncomeItemと同様の問題が発生している
+    const newOutcomeItem = outcomeItems[outcomeItems.length -1];
+    fetch(`http://localhost:8000/api/expenses/outcomes`, {
+      method: 'POST',
+      mode: 'cors',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ name: newOutcomeItem.name })
+    })
+  }
+
   return (
     <div className="chart-group w-3/4">
       <h2 className="text-3xl font-bold">チャート</h2>
@@ -111,12 +133,12 @@ const ExpensesDashboard = () => {
         <div className='input-area-container w-full flex mt-4'>
           <div className='input-income w-1/3 bg-yellow-200'>
             <FormList title="収入" items={incomeItems}/>
-            <AddForm setNewItem={setNewIncomeItem}/>
+            <AddForm setNewItem={setNewIncomeItem} postNewItemToApi={postNewIncomeItem}/>
             <DeleteForm removeItem={removeIncomeItem}/>
           </div>
           <div className='input-outcome w-2/3 bg-red-300'>
             <FormList title="支出" items={outcomeItems}/>
-            <AddForm setNewItem={setNewOutcomeItem}/>
+            <AddForm setNewItem={setNewOutcomeItem} postNewItemToApi={postNewOutcomeItem}/>
             <DeleteForm removeItem={removeOutcomeItem}/>
           </div>
         </div>
