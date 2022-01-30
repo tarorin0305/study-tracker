@@ -6,7 +6,7 @@ type ItemType = {
   name: string,
   path: string,
 }
-const Form: React.FC<FormType> = ({ title, item }) => {
+const Form: React.FC<FormType> = ({ item }) => {
   const postValue  = (value: string, itemPath: string) => {
     fetch(`http://localhost:8000/api/expenses/${itemPath}`, {
       method: 'POST',
