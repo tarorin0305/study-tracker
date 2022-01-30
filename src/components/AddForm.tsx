@@ -1,20 +1,24 @@
-import React, { useState } from "react"
+import { useState } from "react"
 const AddForm = ({ onNewItem = (f: any) => f }) => {
-  const [NewItem, setNewItem] = useState<string>();
+  const [newItemName, setNewItemName] = useState('')
 
-  const submit = (event: any) => {
+  const setNewItems = (event: any) => {
     event.preventDefault()
-    onNewItem(NewItem)
-    console.log(event)
+    onNewItem({
+      name: newItemName,
+      path: 'path' //動的になるよう修正
+    })
+    console.log(event.target)
   }
   return (
     <>
-      <form onSubmit={submit} className='pt-2'>
+      <form onSubmit={setNewItems} className='mt-5'>
         <label>
           新しい項目を追加:
-          <input onChange={event => setNewItem(event.target.value)} type="text" className='ml-2 border border-cyan-300 rounded' />
+          <br/>
+          <input onChange={event => setNewItemName(event.target.value)} type="text" className='ml-2 border border-cyan-300 rounded' />
         </label>
-        <button>追加</button>
+        <button className="ml-2 border rounded">追加</button>
       </form>
     </>
   )
