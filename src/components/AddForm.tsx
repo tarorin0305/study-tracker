@@ -1,10 +1,10 @@
 import { useState } from "react"
-const AddForm = ({ onNewItem = (f: any) => f }) => {
+const AddForm = ({ setNewItem = (f: any) => f }) => {
   const [newItemName, setNewItemName] = useState('')
 
   const setNewItems = (event: any) => {
     event.preventDefault()
-    onNewItem({
+    setNewItem({
       name: newItemName,
       path: 'path' //動的になるよう修正
     })

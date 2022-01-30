@@ -100,11 +100,11 @@ const ExpensesDashboard = () => {
         <div className='input-area-container w-full flex mt-4'>
           <div className='input-income w-1/3 bg-yellow-200'>
             <FormList title="収入" items={incomeItems}/>
-            <AddForm onNewItem={setNewIncomeItem}/>
+            <AddForm setNewItem={setNewIncomeItem}/>
           </div>
           <div className='input-outcome w-2/3 bg-red-300'>
             <FormList title="支出" items={outcomeItems}/>
-            <AddForm onNewItem={setNewOutcomeItem}/>
+            <AddForm setNewItem={setNewOutcomeItem}/>
           </div>
         </div>
       </div>
