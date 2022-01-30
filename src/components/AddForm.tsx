@@ -8,6 +8,7 @@ const AddForm = ({ setNewItem = (f: any) => f }) => {
       name: newItemName,
       path: 'path' //動的になるよう修正
     })
+    setNewItemName('')
     console.log(event.target)
   }
   return (
@@ -16,7 +17,7 @@ const AddForm = ({ setNewItem = (f: any) => f }) => {
         <label>
           新しい項目を追加:
           <br/>
-          <input onChange={event => setNewItemName(event.target.value)} type="text" className='ml-2 border border-cyan-300 rounded' />
+          <input value={newItemName} onChange={event => setNewItemName(event.target.value)} type="text" className='ml-2 border border-cyan-300 rounded' />
         </label>
         <button className="ml-2 border rounded">追加</button>
       </form>
