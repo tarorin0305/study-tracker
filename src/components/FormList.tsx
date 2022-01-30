@@ -1,7 +1,6 @@
 import Form from './Form'
 type ItemType = {
-  name: string,
-  path: string,
+  name: string
 }
 type FormListProps = {
   title: string;

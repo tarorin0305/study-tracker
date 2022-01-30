@@ -63,10 +63,10 @@ const ExpensesDashboard = () => {
   };
 
   const [incomeItems, setIncomeItems] = useState([
-    { name: '本業', path: 'main' },
+    { name: '本業' },
   ])
   const [outcomeItems, setOutcomeItems] = useState([
-    { name: '家賃', path: 'rents'},
+    { name: '家賃' },
   ])
 
   const setNewIncomeItem = (newItem: any) => {

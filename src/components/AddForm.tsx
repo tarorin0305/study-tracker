@@ -4,10 +4,7 @@ const AddForm = ({ setNewItem = (f: any) => f }) => {
 
   const setNewItems = (event: any) => {
     event.preventDefault()
-    setNewItem({
-      name: newItemName,
-      path: 'path' //動的になるよう修正
-    })
+    setNewItem({ name: newItemName, })
     setNewItemName('')
     console.log(event.target)
   }
