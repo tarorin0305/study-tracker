@@ -79,12 +79,12 @@ const ExpensesDashboard = () => {
     setOutcomeItems(newOutcomeItems);
   }
 
-  const removeNewIncomeItem = (removeItemName: string) => {
+  const removeIncomeItem = (removeItemName: string) => {
     const newIncomeItems = [...incomeItems].filter((item) => item.name !== removeItemName);
     setIncomeItems(newIncomeItems);
   }
 
-  const removeNewOutcomeItem = (removeItemName: string) => {
+  const removeOutcomeItem = (removeItemName: string) => {
     const newOutcomeItems = [...outcomeItems].filter((item) => item.name !== removeItemName);
     setOutcomeItems(newOutcomeItems);
   }
@@ -112,12 +112,12 @@ const ExpensesDashboard = () => {
           <div className='input-income w-1/3 bg-yellow-200'>
             <FormList title="収入" items={incomeItems}/>
             <AddForm setNewItem={setNewIncomeItem}/>
-            <DeleteForm removeItem={removeNewIncomeItem}/>
+            <DeleteForm removeItem={removeIncomeItem}/>
           </div>
           <div className='input-outcome w-2/3 bg-red-300'>
             <FormList title="支出" items={outcomeItems}/>
             <AddForm setNewItem={setNewOutcomeItem}/>
-            <DeleteForm removeItem={removeNewOutcomeItem}/>
+            <DeleteForm removeItem={removeOutcomeItem}/>
           </div>
         </div>
       </div>
