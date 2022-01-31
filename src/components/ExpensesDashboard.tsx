@@ -62,21 +62,33 @@ const ExpensesDashboard = () => {
     datasets: studyRecords,
   };
 
-  const [incomeItems, setIncomeItems] = useState([
-    { name: '本業' }, // 初期値をAPIから取得
-  ])
+  // const [incomeItems, setIncomeItems] = useState([
+  //   { name: '本業' }, // 初期値をAPIから取得
+  // ])
+  const [incomeItems, setIncomeItems] = useState([{name: ''}])
+  useEffect(() => {
+    const getIncomeItems = async () => {
+      await fetch(`http://localhost:8000/api/expenses/incomes`, {mode: 'cors'})
+        .then(res => res.json())
+        .then(setIncomeItems)
+    };
+    getIncomeItems()
+  }, [])
+
   const [outcomeItems, setOutcomeItems] = useState([
     { name: '家賃' },
   ])
 
   const setNewIncomeItem = (newItem: any) => {
-    const newIncomeItems = [...incomeItems, newItem];
-    setIncomeItems(newIncomeItems);
+    // const newIncomeItems = [...incomeItems, newItem];
+    // setIncomeItems(newIncomeItems);
+    setIncomeItems((prevIncomeItems) => [...prevIncomeItems, newItem])
   }
 
   const setNewOutcomeItem = (newItem: any) => {
-    const newOutcomeItems = [...outcomeItems, newItem];
-    setOutcomeItems(newOutcomeItems);
+    // const newOutcomeItems = [...outcomeItems, newItem];
+    // setOutcomeItems(newOutcomeItems);
+    setOutcomeItems((prevOutcomeItems) => [...prevOutcomeItems, newItem])
   }
 
   const removeIncomeItem = (removeItemName: string) => {
@@ -90,24 +102,31 @@ const ExpensesDashboard = () => {
   }
 
   const postNewIncomeItem = () => {
-    // TODO: setNewIncomeItem の後に呼ばれているはずだが最新のStateの中身を参照できないので要修正
-    const newIncomeItem = incomeItems[incomeItems.length -1];
-    fetch(`http://localhost:8000/api/expenses/incomes`, {
-      method: 'POST',
-      mode: 'cors',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ name: newIncomeItem.name })
+    // NOTE: setNewIncomeItem の後に呼ばれているがまだ関数呼び出しがされておらず、最新のStateの中身を参照できないので関数型の更新を用いたワークアラウンドで対応
+    // cf: https://zenn.dev/syu/articles/3c4aa813b57b8c
+    setIncomeItems((prevIncomeItems) => {
+      const newIncomeItem = prevIncomeItems[prevIncomeItems.length -1];
+      fetch(`http://localhost:8000/api/expenses/incomes`, {
+        method: 'POST',
+        mode: 'cors',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ name: newIncomeItem.name })
+      })
+      return prevIncomeItems
     })
   }
 
   const postNewOutcomeItem = () => {
-    // TODO: postNewIncomeItemと同様の問題が発生している
-    const newOutcomeItem = outcomeItems[outcomeItems.length -1];
-    fetch(`http://localhost:8000/api/expenses/outcomes`, {
-      method: 'POST',
-      mode: 'cors',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ name: newOutcomeItem.name })
+    // NOTE: postNewIncomeItemと同様の問題が発生しているので同様に対応
+    setOutcomeItems((prevOutcomeItems) => {
+      const newOutcomeItem = prevOutcomeItems[prevOutcomeItems.length -1];
+      fetch(`http://localhost:8000/api/expenses/outcomes`, {
+        method: 'POST',
+        mode: 'cors',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ name: newOutcomeItem.name })
+      })
+      return prevOutcomeItems
     })
   }
 
